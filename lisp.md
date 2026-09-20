@@ -90,7 +90,8 @@ Utilize nullary and callback closures to decouple computation, delay evaluation,
   * When a procedure produces complex, streaming, or multiple values that shouldn't escape as bare untyped lists, accept a `receiver` function (`(lambda (value ...) ...)`).
   * Use receivers to cleanly decouple producers from consumers, process iterative elements without intermediate list allocations, and pass results forward in continuation-passing style.
 * **Naming Conventions:**
-  * Functions accepting a thunk should follow the canonical Lisp standard library convention: prefix with `call-with-` (e.g., `call-with-retry`, `call-with-transaction`).
+  * Functions accepting a thunk or receiver should follow the canonical Lisp standard library convention: prefix with `call-with-` (e.g., `call-with-retry`, `call-with-transaction`).
+  * The thunk or receiver should be the last (rightmost) required argument or a keyword argument.
   * Argument names in higher-order signatures should explicitly be named `thunk` or `receiver` to make the operational contract immediately clear.
 
 ---
