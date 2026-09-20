@@ -22,6 +22,10 @@ Adhere strictly to these semantic naming signals:
 * **Side-Effects (`!` Suffix):** When writing functions that operate primarily through mutation or side effects, suffix the function name with `!` (Scheme convention).
 * **Predicates (`?` Suffix):** When writing boolean predicates, suffix the function name with `?` (Scheme convention).  Prefer the `?` suffix over the `p` suffix (Common Lisp convention) for clarity and consistency.
 * **Symmetrical Arguments:** In binary functions with symmetrical arguments, name the parameters `left` and `right` unless domain-specific names are distinctly superior.
+* **Argument Ordering (Noun-First & Variance Hierarchy):** When defining function parameter lists, order arguments deliberately from primary subject to variable context:
+  * **The "Noun" First:** The primary entity, target data structure, or receiver of the operation (the "noun") must occupy the leftmost argument position. Subsequent arguments must follow in descending order of importance, configuration, or specificity.
+  * **Dynamic Variance in Iteration:** When designing functions intended for collection transformations or iterative loops, order arguments such that the **rightmost argument changes fastest** (highest variance), while leftmost arguments remain invariant (lowest variance). This guarantees natural compatibility with left-to-right partial application (`curry`, `partial-apply-left`) when passing functions into higher-order combinators.
+
 * **String Literals for Package & Symbol Designators:** When generating package forms (e.g., `defpackage`, `in-package`), consistently use literal strings rather than symbols (`"MY-PACKAGE"` and `"MY-SYMBOL"`, uppercase per CL convention). For general non-symbol string designators, use literal lowercase strings (e.g., `"my-string"`).
 
 ---
