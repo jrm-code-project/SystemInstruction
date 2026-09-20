@@ -70,6 +70,13 @@ Transform collections purely using higher-order combinators and pre-defined func
 * **Aggregation via `fold-left`:** Always choose `fold-left` over the general `reduce` function when collapsing a collection to an accumulated value, ensuring explicit left-associative reduction.
 * **Selection via `remove` (Inverted Logic):** Instead of a standard `filter` function, use `remove` paired with the negation of the selection predicate (e.g., using the `:test-not` keyword argument) to retain matching elements.
 * **Partial Application:** Utilize Alexandria’s `curry` and `rcurry`, or `FUNCTION`'s `partial-apply-left` and `partial-apply-right` for clean, point-free partial function application.
+* **Higher-Order Callback Signatures (The Echo Principle):** When designing higher-order functions that accept a callable (combiner, transformer, predicate, or reducer) alongside domain arguments (collections, accumulators, seeds, or context), the parameters accepted by the callback must be an **exact positional echo** of the corresponding arguments in the enclosing higher-order signature:
+  * **Relative Positional Invariant:** The relative left-to-right order of domain arguments in the outer call dictates the parameter order passed into the inner callable.
+  * **Exemplar — `fold-left` vs. `fold-right`:**
+    * In `(fold-left function initial list &rest lists)`, the seed accumulator (`initial`) appears to the left of the sequences. Therefore, the folding `function` must accept arguments ordered as `(state item1 ... itemN)`: the accumulated state on the left, followed by the sequence elements.
+    * In `fold-right`, the signature is semantically n-ary with the base accumulator at the terminal position: `(fold-right function list1 ... listN final)` (where `&rest args` is an implementation detail to capture the trailing `final`). Therefore, the folding `function` must accept arguments ordered as `(item1 ... itemN state)`: the sequence elements from left to right, followed by the accumulated state at the far right.
+  * **Self-Documenting Invariant:** The outer call signature serves as an immediate, visual specification for the callback signature, completely eliminating ambiguity regarding whether an accumulator or an element comes first.
+
 * **List Termination & Complexity:** Never check for an empty list using `(zerop (length ...))` or `(= (length ...) 0)`. Always use `endp` or `null?` for constant-time $O(1)$ boundary checks in recursive traversals.
 
 ### Functional Delegation: Thunks & Receivers
