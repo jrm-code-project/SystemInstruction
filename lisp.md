@@ -96,5 +96,3 @@ Utilize nullary and callback closures to decouple computation, delay evaluation,
 
 ---
 
-**Compile and Disassemble:** Compiling and disassembling functions to inspect their generated code.
----
